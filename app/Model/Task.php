@@ -70,7 +70,7 @@ class Task extends AppModel{
 	);
 
 	/**
-	 * Check if there a particular user is assigned to a particular task
+	 * Check if there is a particular user is assigned to a particular task
 	 *
 	 * @param	int	$task	id of task
 	 * @param	int	$user	id of user
@@ -90,18 +90,18 @@ class Task extends AppModel{
 	 * Gets the hours completed in a particular backlog 
 	 *
 	 * @param	int		$backlog	id of backlog
-	 * @param	String	$start_date	(Optional) The beginning point (YY-MM-DD), if left out get earliest
-	 * @param	String	$end_date	(Optional) The end point (YY-MM-DD), though if you want all entries for the 4th you'd put the 5th, if left out get latest.
+	 * @param	String	$start		(Optional) The beginning point (Y-m-d) inclusive
+	 * @param	String	$end		(Optional) The end point (Y-m-d) exclusive
 	 * @return	float				The total time (in hours) the backlog has been worked on
 	 **/
-	public function hoursComplete($backlog, $start_date = null, $end_date = null) {
+	public function hoursComplete($backlog, $start = null, $end = null) {
 		//get all tasks with that backlog
 		$tasks = $this->find('list', array( 'conditions' => array('backlog_id' => $backlog)));
 		
 		$totalTime = 0;
 		foreach ($tasks as $id => $task) {
 			//get all logs with that task's time
-			$time = $this->Log->hoursComplete($id, '', $start_date, $end_date);
+			$time = $this->Log->hoursComplete($id, '', $start, $end);
 			
 			//total values
 			$totalTime += $time;

@@ -67,23 +67,23 @@ class Log extends AppModel{
 	 * Determines the number of hours logged by a certain user
 	 * with an optional requirement of on a certain task and date range
 	 *
-	 * @param	int		$user		The id of the user
-	 * @param	int		$task		(Optional) The id of the task
-	 * @param	String	$start_date	(Optional) The beginning point (YY-MM-DD), if left out get earliest
-	 * @param	String	$end_date	(Optional) The end point (YY-MM-DD), though if you want all entries for the 4th you'd put the 5th, if left out get latest.
-	 * @return	float				Number of hours worked
+	 * @param	int		$user	The id of the user
+	 * @param	int		$task	(Optional) The id of the task
+	 * @param	String	$start	(Optional) The beginning point (Y-m-d) inclusive
+	 * @param	String	$end	(Optional) The end point (Y-m-d) exclusive
+	 * @return	float			Number of hours worked
 	 **/
-	public function hoursWorked($user, $task = null, $start_date = null, $end_date = null) {
+	public function hoursWorked($user, $task = null, $start = null, $end = null) {
 		$cond = array('user_id' => $user);
 		
 		if(!empty($task))		//check if task is present
 			$cond['task_id'] = $task;
 		
-		if(!empty($start_date))	//check if start date is present
-			$cond['created >='] = $start_date;
+		if(!empty($start))	//check if start date is present
+			$cond['created >='] = $start;
 		
-		if(!empty($end_date))	//check if end date is present
-			$cond['created <'] = $end_date;
+		if(!empty($end))	//check if end date is present
+			$cond['created <'] = $end;
 		
 		//get all logs with that user (and task) (in that range)
 		$logs = $this->find('list', array( 'conditions' => $cond, 'fields' => array('Log.worked')));
@@ -92,29 +92,31 @@ class Log extends AppModel{
 		$total = 0;
 		foreach ($logs as $log)
 			$total += $log;
+			
+		return $total;
 	}
 	
 	/**
 	 * Determines the number of hours logged on a certain task
 	 * with an optional requirement of by a certain user and date range
 	 *
-	 * @param	int		$task		The id of the task
-	 * @param	int		$user		(Optional) The id of the user
-	 * @param	String	$start_date	(Optional) The beginning point (YY-MM-DD), if left out get earliest
-	 * @param	String	$end_date	(Optional) The end point (YY-MM-DD), if left out get latest
-	 * @return	float				Number of hours worked
+	 * @param	int		$task	The id of the task
+	 * @param	int		$user	(Optional) The id of the user
+	 * @param	String	$start	(Optional) The beginning point (Y-m-d) inclusive
+	 * @param	String	$end	(Optional) The end point (Y-m-d) exclusive
+	 * @return	float			Number of hours worked
 	 **/
-	public function hoursComplete($task, $user = null, $start_date = null, $end_date = null) {
+	public function hoursComplete($task, $user = null, $start = null, $end = null) {
 		$cond = array('task_id' => $task);
 		
 		if(!empty($user))		//check if user is present
 			$cond['user_id'] = $user;
 		
-		if(!empty($start_date))	//check if start date is present
-			$cond['created >='] = $start_date;
+		if(!empty($start))	//check if start date is present
+			$cond['created >='] = $start;
 		
-		if(!empty($end_date))	//check if end date is present
-			$cond['created <'] = $end_date;
+		if(!empty($end))	//check if end date is present
+			$cond['created <'] = $end;
 		
 		//get all logs with that task (and user) (in that range)
 		$logs = $this->find('list', array( 'conditions' => $cond, 'fields' => array('Log.worked')));
@@ -123,6 +125,8 @@ class Log extends AppModel{
 		$total = 0;
 		foreach ($logs as $log)
 			$total += $log;
+			
+		return $total;
 	}
 	
 }

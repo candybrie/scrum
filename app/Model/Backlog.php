@@ -54,4 +54,31 @@ class Backlog extends AppModel{
 		),
 	);
 	
+	public function current() {
+		$today = ;
+		$cond = array(
+			//today >= start
+			$cond['start_date <='] = $today;
+			//today =< end
+			$cond['end_date >='] = $today;
+		);
+		
+		$matches = $this->find('list', array('conditions' => $cond, 'fields' => array('Backlog.backlog_type')));
+		
+		foreach($matches as $id => $type) {
+			if($type === 'sprint')
+				$sprint = $id;
+			elseif($type === 'product')
+				$product = $id;
+		}
+		
+		if(!empty($sprint))
+			return $sprint;
+		elseif(!empty($product))
+			return $product;
+		else
+			return 0;
+		
+	}
+	
 }

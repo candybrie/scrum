@@ -31,8 +31,8 @@ CREATE TABLE users(
 CREATE TABLE backlogs(
 	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	backlog_type VARCHAR(20),
-	start_date DATE DEFAULT NULL,
-	end_date DATE DEFAULT NULL,
+	start_date DATETIME DEFAULT NULL,
+	end_date DATETIME DEFAULT NULL,
 	title VARCHAR(50),
 	parent_id INT UNSIGNED
 );

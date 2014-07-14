@@ -9,11 +9,8 @@ class BacklogsController extends AppController {
 	}
 	
 	public function view($id = null) {
-		if(!$id) {
-			//get current sprint id
-			
-			//if no current sprint, get current backlog
-		}
+		if(!$id)
+			$id = $this->Backlog->current();
 		
 		$backlog = $this->Backlog->findById($id);
 		if(!$backlog) {
@@ -85,7 +82,7 @@ class BacklogsController extends AppController {
 	 * @param	int	id	The id to check against records
 	 **/
 	private function _checkId($id) {
-		if(!id) {
+		if(!$id) {
 			throw new NotFoundException(__('Invalid backlog.'));
 		}
 		

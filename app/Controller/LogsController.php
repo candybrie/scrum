@@ -65,7 +65,7 @@ class LogsController extends AppController {
 				$taskId = (int) $this->request->params['pass'][0];
 				
 				//check if user owns this task
-				if($this->Task->isAssignedUser($task, $user)){
+				if($this->Log->Task->isAssignedUser($task, $user)){
 					return true;
 				}
 			}
@@ -85,6 +85,12 @@ class LogsController extends AppController {
 		return parent::isAuthorized($user);
 	}
 	
+	/**
+	 * Determines if id given points to a actual item.
+	 * Throws NotFoundException if it doesn't.
+	 * 
+	 * @param	int	id	The id to check against records
+	 **/
 	private function _checkId($id) {
 		if(!id) {
 			throw new NotFoundException(__('Invalid log.'));

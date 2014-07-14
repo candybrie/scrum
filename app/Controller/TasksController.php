@@ -38,6 +38,12 @@ class TasksController extends AppController {
 		return $this->redirect(array('action'=>'index'));
 	}
 	
+	/**
+	 * Determines if id given points to a actual item.
+	 * Throws NotFoundException if it doesn't.
+	 * 
+	 * @param	int	id	The id to check against records
+	 **/
 	private function _checkId($id) {
 		if(!id) {
 			throw new NotFoundException(__('Invalid task.'));

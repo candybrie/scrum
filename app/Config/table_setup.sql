@@ -3,6 +3,7 @@ CREATE TABLE tasks(
 	title VARCHAR(50),
 	description TEXT,
 	priority VARCHAR(20),
+	estimated_time FLOAT,
 	user_id INT UNSIGNED,
 	backlog_id INT UNSIGNED
 );
@@ -13,7 +14,7 @@ CREATE TABLE logs(
 	title VARCHAR(50),
 	description TEXT,
 	status VARCHAR(20),
-	worked INT UNSIGNED,
+	worked FLOAT,
 	user_id INT UNSIGNED,
 	task_id INT UNSIGNED
 );
@@ -30,8 +31,8 @@ CREATE TABLE users(
 CREATE TABLE backlogs(
 	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	backlog_type VARCHAR(20),
-	start_date DATETIME DEFAULT NULL,
-	end_date DATETIME DEFAULT NULL,
+	start_date DATE DEFAULT NULL,
+	end_date DATE DEFAULT NULL,
 	title VARCHAR(50),
 	parent_id INT UNSIGNED
 );

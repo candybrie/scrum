@@ -88,14 +88,17 @@ class UsersController extends AppController {
 	
 	public function isAuthorized($user) {
 		
+		//Everyone can see their dashboard
 		if($this->action === 'dashboard') {
 			return true;
 		}
+		//Scrum can add users
 		elseif($this->action === 'add') {
 			if(isset($user['role']) && $user['role'] === 'scrum') {
 				return true;
 			}
 		}
+		//Users can edit/delete themselves
 		elseif(in_array($this->action, array('edit', 'delete'))) {
 			$userId = (int) $this->request->params['pass'][0];
 			

@@ -66,6 +66,12 @@ class Task extends AppModel{
 				'rule' => array('comparison', '<=', 5),
 				'message' => 'Invalid priority.'
 			)
+		),
+		'estimated_time' => array(
+			'time1' => array(
+				'rule' => 'numeric',
+				'message' => 'Please indicate the amount of time you think this task will take (in hours).'
+			)
 		)
 	);
 
@@ -85,4 +91,23 @@ class Task extends AppModel{
 		else
 			return true;
 	}
+	
+	public function hoursComplete($backlog, $start_date = null, $end_date = null) {
+		//check if a backlog is correct
+		
+		//get all tasks with that backlog
+		
+		//get all logs with that task's time
+		
+		//total values
+	}
+	
+	public function hoursEstimated($backlog) {
+		//check if a backlog is correct
+		
+		//get all tasks with that backlog
+		
+		//total time estimates
+	}
+
 }

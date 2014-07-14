@@ -8,18 +8,10 @@ class Task extends AppModel{
 			'className' => 'User',
 			'foreignKey' => 'user_id'
 		),
-		'Backlog' => array(
-			'className' => 'Backlog',
-			'foreignKey' => 'backlog_id'
-		)
+		'Backlog'
 	);
 	
-	public $hasMany = array(
-		'Log' => array(
-			'className' => 'Log',
-			'foreignKey' => 'task_id'
-		)
-	);
+	public $hasMany = 'Log';
 	
 	public $hasAndBelongsToMany = array(
 		'User' => array(
@@ -35,6 +27,8 @@ class Task extends AppModel{
 			'associationForeignKey' => 'dependent_id'
 		),
 	);
+	
+	public $actsAs = array('Containable');
 	
 	public $validate = array(
 		'title' => array(
@@ -92,22 +86,50 @@ class Task extends AppModel{
 			return true;
 	}
 	
+	/**
+	 * Gets the hours completed in a particular backlog 
+	 *
+	 * @param	int		$backlog	id of backlog
+	 * @param	String	$start_date	(Optional) The beginning point (YY-MM-DD), if left out get earliest
+	 * @param	String	$end_date	(Optional) The end point (YY-MM-DD), though if you want all entries for the 4th you'd put the 5th, if left out get latest.
+	 * @return	float				The total time (in hours) the backlog has been worked on
+	 **/
 	public function hoursComplete($backlog, $start_date = null, $end_date = null) {
-		//check if a backlog is correct
-		
 		//get all tasks with that backlog
+		$tasks = $this->find('list', array( 'conditions' => array('backlog_id' => $backlog)));
 		
-		//get all logs with that task's time
+		$totalTime = 0;
+		foreach ($tasks as $id => $task) {
+			//get all logs with that task's time
+			$time = $this->Log->hoursComplete($id, '', $start_date, $end_date);
+			
+			//total values
+			$totalTime += $time;
+		}
 		
-		//total values
+		return $totalTime;
 	}
 	
+	/**
+	 * The sum of the estimated time of all tasks in a particular backlog
+	 *
+	 * @param	int		$backlog	id of backlog
+	 * @return	float				total hours estimated in backlog
+	 **/
 	public function hoursEstimated($backlog) {
-		//check if a backlog is correct
-		
 		//get all tasks with that backlog
+		$tasks = $this->find('list', array( 
+					'conditions' => array('backlog_id' => $backlog),
+					'fields' => array('Task.estimated_time')
+				)
+			);
 		
 		//total time estimates
+		foreach ($tasks as $task) {
+			$totalTime += $task; 
+		}
+		
+		return $totalTime;
 	}
 
 }

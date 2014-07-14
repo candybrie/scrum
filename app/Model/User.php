@@ -7,11 +7,8 @@ class User extends AppModel{
 	public $displayField = 'username';
 
 	public $hasMany = array(
-		'Log' => array(
-			'className' => 'Log',
-			'foreignKey' => 'user_id'
-		),
-		'Tasks' => array(
+		'Log',
+		'createdTask' => array(
 			'className' => 'Task',
 			'foreignKey' => 'user_id'
 		)
@@ -25,6 +22,8 @@ class User extends AppModel{
 			'associationForeignKey' => 'task_id'
 		)
 	);
+	
+	public $actsAs = array('Containable');
 
 	public $validate = array(
 		'username' => array(

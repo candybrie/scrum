@@ -3,16 +3,9 @@
 App::uses('AppModel', 'Model');
 
 class Log extends AppModel{
-	public $belongsTo = array(
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'user_id'
-		),
-		'Task' => array(
-			'className' => 'Task',
-			'foreignKey' => 'task_id'
-		)
-	);
+	public $belongsTo = array( 'User', 'Task');
+	
+	public $actsAs = array('Containable');
 	
 	public $validate = array(
 		'title' => array(
@@ -78,7 +71,7 @@ class Log extends AppModel{
 	 * @param	int		$task		(Optional) The id of the task
 	 * @param	String	$start_date	(Optional) The beginning point (YY-MM-DD), if left out get earliest
 	 * @param	String	$end_date	(Optional) The end point (YY-MM-DD), though if you want all entries for the 4th you'd put the 5th, if left out get latest.
-	 * @return	int					Number of hours worked
+	 * @return	float				Number of hours worked
 	 **/
 	public function hoursWorked($user, $task = null, $start_date = null, $end_date = null) {
 		$cond = array('user_id' => $user);
@@ -109,16 +102,27 @@ class Log extends AppModel{
 	 * @param	int		$user		(Optional) The id of the user
 	 * @param	String	$start_date	(Optional) The beginning point (YY-MM-DD), if left out get earliest
 	 * @param	String	$end_date	(Optional) The end point (YY-MM-DD), if left out get latest
-	 * @return	int					Number of hours worked
+	 * @return	float				Number of hours worked
 	 **/
 	public function hoursComplete($task, $user = null, $start_date = null, $end_date = null) {
-		//check if a task is correct
+		$cond = array('task_id' => $task);
 		
-		//check if user is present and correct
+		if(!empty($user))		//check if user is present
+			$cond['user_id'] = $user;
+		
+		if(!empty($start_date))	//check if start date is present
+			$cond['created >='] = $start_date;
+		
+		if(!empty($end_date))	//check if end date is present
+			$cond['created <'] = $end_date;
 		
 		//get all logs with that task (and user) (in that range)
+		$logs = $this->find('list', array( 'conditions' => $cond, 'fields' => array('Log.worked')));
 		
-		//total time worked on task (by user) (in that range)
+		//total time worked by task (on user) (in that range)
+		$total = 0;
+		foreach ($logs as $log)
+			$total += $log;
 	}
 	
 }

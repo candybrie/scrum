@@ -11,15 +11,14 @@ class Backlog extends AppModel{
 	);
 	
 	public $hasMany = array(
-		'Task' => array(
-			'className' => 'Task',
-			'foreignKey' => 'backlog_id'
-		),
+		'Task',
 		'Child' => array(
 			'className' => 'Backlog'
 			'foreignKey' => 'parent_id'
 		)
 	);
+	
+	public $actsAs = array('Containable');
 	
 	public $validate = array(
 		'title' => array(

@@ -1,0 +1,49 @@
+CREATE TABLE tasks(
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	title VARCHAR(50),
+	description TEXT,
+	priority VARCHAR(20),
+	user_id INT UNSIGNED,
+	backlog_id INT UNSIGNED
+);
+
+CREATE TABLE logs(
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	created DATETIME DEFAULT NULL,
+	title VARCHAR(50),
+	description TEXT,
+	status VARCHAR(20),
+	worked INT UNSIGNED,
+	user_id INT UNSIGNED,
+	task_id INT UNSIGNED
+);
+
+CREATE TABLE users(
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	username VARCHAR(50),
+	password VARCHAR(50),
+	email VARCHAR(50),
+	name VARCHAR(50),
+	role VARCHAR(20)
+);
+
+CREATE TABLE backlogs(
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	backlog_type VARCHAR(20),
+	start_date DATETIME DEFAULT NULL,
+	end_date DATETIME DEFAULT NULL,
+	title VARCHAR(50),
+	parent_id INT UNSIGNED
+);
+
+CREATE TABLE tasks_users(
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	task_id INT UNSIGNED,
+	user_id INT UNSIGNED
+);
+
+CREATE TABLE dependents_tasks(
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	dependent_id INT UNSIGNED,
+	task_id INT UNSIGNED
+);

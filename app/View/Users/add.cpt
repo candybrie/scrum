@@ -1,0 +1,19 @@
+<div class="users form">
+	<?php eacho $this->Form->create('User'); ?>
+		<fieldset>
+			<legend><?php echo __('Add User'); ?></legend>
+			<?php 
+				echo $this->Form->input('username'); 
+				echo $this->Form->input('password');
+				echo $this->Form->input('role', array(
+						'admin' => 'Administrator',
+						'scrum' => 'Scrum Master', 
+						'team' => 'Team Member',
+						'noob' => 'Observer'
+					)
+				);
+			?>
+		</fieldset>
+	<?php echo $this->Form->end(__('Submit')); ?>
+</div>
+		

@@ -78,7 +78,7 @@ class UsersController extends AppController {
 	}
 	
 	public function logout() {
-		return $this->redirect($this-Auth->logout());
+		return $this->redirect($this->Auth->logout());
 	}
 	
 	public function dashboard() {
@@ -102,7 +102,7 @@ class UsersController extends AppController {
 		elseif(in_array($this->action, array('edit', 'delete'))) {
 			$userId = (int) $this->request->params['pass'][0];
 			
-			if($userId = $user['id'])) {
+			if($userId = $user['id']) {
 				return true;
 			}
 		}

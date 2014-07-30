@@ -13,7 +13,7 @@ class Backlog extends AppModel{
 	public $hasMany = array(
 		'Task',
 		'Child' => array(
-			'className' => 'Backlog'
+			'className' => 'Backlog',
 			'foreignKey' => 'parent_id'
 		)
 	);
@@ -23,17 +23,13 @@ class Backlog extends AppModel{
 	public $validate = array(
 		'title' => array(
 			'title1' => array(
-				'rule' => 'alphaNumeric',
-				'required' => 'create',
-				'message' => 'Please only use alphaNumeric characters.',
-				'allowEmpty' => false
-			),
-			'title2' => array(
 				'rule' => array('between', 1, 40),
-				'message' => 'This title must be between 1 and 40 characters.'
+				'message' => 'This title must be between 1 and 40 characters.',
+				'required' => 'create',
+				'allowEmpty' => false
 			)
 		),
-		'start_date' => array(			//use jQuery UI to restrict date stuff
+		/*'start_date' => array(			//use jQuery UI to restrict date stuff
 			'start1' => array (
 				'rule' => array('datetime', 'mdy'),
 				'message' => 'Please enter a valid date (MM-DD-YY)'
@@ -44,7 +40,7 @@ class Backlog extends AppModel{
 				'rule' => array('datetime', 'mdy'),
 				'message' => 'Please enter a valid date (MM-DD-YY)'
 			)
-		),
+		),*/
 		'backlog_type' => array(
 			'type1' => array(
 				'rule' => array('inList', array('wish', 'product', 'sprint')),
@@ -55,12 +51,12 @@ class Backlog extends AppModel{
 	);
 	
 	public function current() {
-		$today = ;
+		$today = date('Y-m-d H:i:s');
 		$cond = array(
 			//today >= start
-			$cond['start_date <='] = $today;
+			'start_date <=' => $today,
 			//today =< end
-			$cond['end_date >='] = $today;
+			'end_date >=' => $today
 		);
 		
 		$matches = $this->find('list', array('conditions' => $cond, 'fields' => array('Backlog.backlog_type')));

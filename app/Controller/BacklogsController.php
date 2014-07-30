@@ -31,7 +31,7 @@ class BacklogsController extends AppController {
 				return $this->redirect(array('action' => 'addTasks', $this->Backlog->id));
 			}
 			
-			$this->Session->setFlash(__('Unable to add your post.'))
+			$this->Session->setFlash(__('Unable to add your post.'));
 		}
 	}
 	
@@ -53,11 +53,15 @@ class BacklogsController extends AppController {
 	}
 	
 	public function addTasks($id = null) {
-		_checkId($id);
+		$this->_checkId($id);
 		$this->Backlog->id = $id;
 		
+        if($this->request->is('post')) {
 		//logic for adding tasks to backlog
-		
+            //get back some kind of array
+            //foreach item assign parent to this id
+        }
+        
 		//logic to load tasks if no request
 	}
 	

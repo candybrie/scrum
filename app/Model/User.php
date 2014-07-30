@@ -1,7 +1,7 @@
 <?php
 
 App::uses('AppModel', 'Model');
-App::uses('SimplePasswordHasher', 'Controller/Component/Auth')
+App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
 
 class User extends AppModel{
 	public $displayField = 'username';
@@ -35,7 +35,7 @@ class User extends AppModel{
 			'user2' => array(
 				'rule' => array('between', 2, 30),
 				'message' => 'Usernames must be between 2 and 30 characters.'
-			)
+			),
 			'user3' => array(
 				'rule' => 'isUnique',
 				'message' => 'That username has already been taken.'
@@ -68,7 +68,7 @@ class User extends AppModel{
 				'allowEmpty' => true,
 				'message' => 'Please use alphaNumeric characters.'
 			)
-		)
+		),
 		'role' => array(
 			'valid' => array(
 				'rule' => array('inList', array('admin', 'scrum', 'team', 'noob')),

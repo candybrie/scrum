@@ -1,5 +1,5 @@
 <div class="users form">
-	<?php eacho $this->Form->create('User'); ?>
+	<?php echo $this->Form->create('User'); ?>
 		<fieldset>
 			<legend><?php echo __('Add User'); ?></legend>
 			<?php 
